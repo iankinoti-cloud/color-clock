@@ -7,7 +7,13 @@ function ColorClock() {
   const audioCtxRef = useRef(null);
 
   useEffect(() => {
+    function isPageVisible() {
+      return document.visibilityState === 'visible' && document.hasFocus();
+    }
+
     function playTick() {
+      if (!isPageVisible()) return;
+
       if (!audioCtxRef.current) {
         audioCtxRef.current = new (window.AudioContext || window.webkitAudioContext)();
       }
@@ -47,7 +53,22 @@ function ColorClock() {
       playTick();
     }, 1000);
 
-    return () => clearInterval(timer);
+    // Suspend audio when user switches tabs or windows
+    const handleHide = () => audioCtxRef.current?.suspend();
+    const handleShow = () => audioCtxRef.current?.resume();
+
+    document.addEventListener('visibilitychange', () => {
+      document.hidden ? handleHide() : handleShow();
+    });
+    window.addEventListener('blur', handleHide);
+    window.addEventListener('focus', handleShow);
+
+    return () => {
+      clearInterval(timer);
+      document.removeEventListener('visibilitychange', handleHide);
+      window.removeEventListener('blur', handleHide);
+      window.removeEventListener('focus', handleShow);
+    };
   }, []);
 
   useEffect(() => {
