@@ -1,0 +1,124 @@
+/* ─── Gold shimmer keyframe ─────────────────────────────────── */
+@keyframes goldShimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+@keyframes subtlePulse {
+  0%, 100% { box-shadow:
+    0 0 0 1px #7a5c00,
+    0 0 30px rgba(218, 165, 32, 0.12),
+    0 0 60px rgba(218, 165, 32, 0.06),
+    0 48px 96px rgba(0, 0, 0, 0.85),
+    inset 0 1px 0 rgba(255, 215, 0, 0.08); }
+  50%  { box-shadow:
+    0 0 0 1px #b8960a,
+    0 0 40px rgba(255, 215, 0, 0.22),
+    0 0 80px rgba(218, 165, 32, 0.10),
+    0 48px 96px rgba(0, 0, 0, 0.85),
+    inset 0 1px 0 rgba(255, 215, 0, 0.14); }
+}
+
+/* ─── Widget card ───────────────────────────────────────────── */
+.clock-widget {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  padding: 56px 96px 52px;
+  border-radius: 6px;
+
+  background:
+    linear-gradient(160deg, #131007 0%, #0a0906 50%, #131007 100%);
+
+  border: 1px solid #7a5c00;
+  outline: 1px solid rgba(180, 130, 0, 0.18);
+  outline-offset: 7px;
+
+  animation: subtlePulse 4s ease-in-out infinite;
+}
+
+/* Top-edge gold line */
+.clock-widget::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 10%; right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #ffd700 50%, transparent);
+  border-radius: 50%;
+}
+
+/* ─── Label ─────────────────────────────────────────────────── */
+.clock-label {
+  margin: 0 0 20px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 7px;
+  text-transform: uppercase;
+  color: #8a6a00;
+}
+
+/* ─── Time digits ───────────────────────────────────────────── */
+.clock-time {
+  font-family: var(--mono);
+  font-size: 92px;
+  font-weight: 700;
+  letter-spacing: 10px;
+  line-height: 1;
+
+  background: linear-gradient(
+    180deg,
+    #ffe799  0%,
+    #ffd700 28%,
+    #daa520 55%,
+    #c8930a 72%,
+    #b8860b 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: goldShimmer 5s linear infinite;
+
+  filter: drop-shadow(0 0 14px rgba(255, 200, 0, 0.28));
+}
+
+/* ─── Ornamental divider ────────────────────────────────────── */
+.clock-divider {
+  width: 160px;
+  height: 1px;
+  margin: 20px 0 16px;
+  background: linear-gradient(90deg, transparent, #c8930a 30%, #ffd700 50%, #c8930a 70%, transparent);
+}
+
+/* ─── Date string ───────────────────────────────────────────── */
+.clock-date {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #9a7408;
+}
+
+/* ─── Responsive ────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .clock-widget {
+    padding: 40px 36px 36px;
+  }
+
+  .clock-time {
+    font-size: 56px;
+    letter-spacing: 6px;
+  }
+
+  .clock-date {
+    font-size: 11px;
+    letter-spacing: 3px;
+  }
+
+  .clock-divider {
+    width: 100px;
+  }
+}
+
